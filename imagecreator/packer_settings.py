@@ -51,7 +51,7 @@ PACKER_BUILDER_BASE = {
             "type": "shell",
             "inline": [
                 "passwd --delete root",
-                "sed -i 's/PermitRootLogin.*/PermitRootLogin without-password/' /etc/ssh/sshd_config"  # noqa
+                "sed -i 's/PermitRootLogin.*/PermitRootLogin without-password/g;' /etc/ssh/sshd_config"  # noqa
             ]
         }
     ]
@@ -82,5 +82,6 @@ class PackerSettings(object):
                     custom_keys[key] = val
             config = PACKER_BUILDER_BASE
             config['builders'][0].update(custom_keys)
-            self._config = json.dumps(config)
+            self._config = json.dumps(config, sort_keys=True, indent=4,
+                                      separators=(',', ': '))
         return self._config
