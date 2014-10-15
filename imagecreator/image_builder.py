@@ -18,6 +18,7 @@ import logging
 import os
 import socket
 import shutil
+import sys
 import tempfile
 import time
 
@@ -179,6 +180,10 @@ class ImageBuilder(object):
         self._copy_files_to_builder()
         self._run_packer()
         self._get_image_from_remote()
+
+    def cleanup(self):
+        print "Cleanup not implemented yet."
+        sys.exit(-1)
 
 
 from imagecreator.builders.rhel import RhelImageBuilder

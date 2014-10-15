@@ -25,16 +25,6 @@ import imagecreator.image_builder
 LOG = logging.getLogger(__name__)
 
 
-def signal_handler(signal, frame):
-    print('You pressed Ctrl+C! Cleaning up the workspace.')
-    _cleanup_everything()
-    sys.exit(0)
-
-
-def _cleanup_everything():
-    print "Cleaning up...not really. HAH!"
-
-
 def main():
     parser = argparse.ArgumentParser(description='Build some openstack images')
     parser.add_argument('config_file')
@@ -42,12 +32,16 @@ def main():
     LOG.setLevel(logging.DEBUG)
     args = parser.parse_args()
 
-    signal.signal(signal.SIGINT, signal_handler)
-
     settings = None
     with open(args.config_file, 'r') as fh:
         settings = yaml.load(fh)
     builder = imagecreator.image_builder.get_image_builder(settings)
+
+    def signal_handler(*args):
+        print "Interrupted. Cleaning up..."
+        builder.cleanup()
+
+    signal.signal(signal.SIGINT, signal_handler)
     builder.build()
 
 
