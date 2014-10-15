@@ -16,9 +16,12 @@
 
 import logging
 import os
+import socket
+import shutil
+import tempfile
 import time
 
-from fabric.api import cd, env, execute, put, run, sudo
+from fabric.api import cd, env, execute, get, put, run, sudo
 from novaclient import client as nova
 
 from imagecreator.build_instance_settings import BuildInstanceSettings
@@ -121,6 +124,35 @@ class ImageBuilder(object):
         with cd(tempdir):
             sudo('PACKER_LOG=1 && ./packer build packer_config.json')
 
+    def _get_image_from_remote(self):
+        output = execute(ImageBuilder.get_image_from_remote,
+                         self._build_tempdir,
+                         self._build_instance_settings.name,
+                         hosts=[self._build_instance_ip])
+
+    @staticmethod
+    def get_image_from_remote(tempdir, build_dir_name):
+        local_path = os.path.join(os.getcwd(), build_dir_name)
+        os.makedirs(build_dir_name)
+        with cd(tempdir):
+            get('packer_output', local_path)
+
+    def _wait_for_ssh(self):
+        interval = 5
+        retries = 60
+        count = 0
+
+        for x in range(retries):
+            try:
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                result = sock.connect((self._build_instance_ip, 22))
+                time.sleep(interval) # give an extra 5 secs to get going
+                return True
+            except socket.error as e:
+                print "SSH not available yet..."
+                time.sleep(interval)
+        return False
+
     def build(self):
         # build an instance to work with
         self._get_nova_client()
@@ -129,8 +161,8 @@ class ImageBuilder(object):
         LOG.info("Attaching a floating IP")
         self._attach_floating_ip()
 
-        #FIXME: need towait for SSH
-        time.sleep(60)
+        if not self._wait_for_ssh():
+            raise Exception("SSH never became available")
 
         # now start provisioning on that instance
         env.user = self._build_instance_settings.user
@@ -140,6 +172,7 @@ class ImageBuilder(object):
         self._install_builder_requirements()
         self._copy_files_to_builder()
         self._run_packer()
+        self._get_image_from_remote()
 
 
 from imagecreator.builders.rhel import RhelImageBuilder
