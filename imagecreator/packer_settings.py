@@ -21,7 +21,7 @@ PACKER_BUILDER_BASE = {
         {
             "type": "qemu",
             "output_directory": "packer_output",
-            "shutdown_command": "shutdown -P now",
+            "shutdown_command": "halt -p",
             "disk_size": 10000,
             "format": "qcow2",
             "headless": True,
