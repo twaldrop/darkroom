@@ -14,8 +14,8 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 
-from imagecreator.image_builder import ImageBuilder
-from imagecreator.packer_settings import PackerSettings
+from darkroom.image_builder import ImageBuilder
+from darkroom.packer_settings import PackerSettings
 
 DISTRO_ISO_INFO = {
     'centos': {

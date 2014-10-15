@@ -20,7 +20,7 @@ import signal
 import sys
 import yaml
 
-import imagecreator.image_builder
+import darkroom.image_builder
 
 LOG = logging.getLogger(__name__)
 
@@ -35,7 +35,7 @@ def main():
     settings = None
     with open(args.config_file, 'r') as fh:
         settings = yaml.load(fh)
-    builder = imagecreator.image_builder.get_image_builder(settings)
+    builder = darkroom.image_builder.get_image_builder(settings)
 
     def signal_handler(*args):
         print "Interrupted. Cleaning up..."

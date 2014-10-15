@@ -25,7 +25,7 @@ import time
 from fabric.api import cd, env, execute, get, put, run, sudo
 from novaclient import client as nova
 
-from imagecreator.build_instance_settings import BuildInstanceSettings
+from darkroom.build_instance_settings import BuildInstanceSettings
 
 LOG = logging.getLogger(__name__)
 
@@ -153,7 +153,7 @@ class ImageBuilder(object):
             try:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 result = sock.connect((self._build_instance_ip, 22))
-                time.sleep(interval) # give an extra 5 secs to get going
+                time.sleep(interval)  # give an extra 5 secs to get going
                 return True
             except socket.error as e:
                 print "SSH not available yet..."
@@ -186,7 +186,7 @@ class ImageBuilder(object):
         sys.exit(-1)
 
 
-from imagecreator.builders.rhel import RhelImageBuilder
+from darkroom.builders.rhel import RhelImageBuilder
 
 
 def get_image_builder(settings):
