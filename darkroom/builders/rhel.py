@@ -24,7 +24,7 @@ DISTRO_ISO_INFO = {
             'iso_checksum': 'f2087f9af0d50df05144a1f0d1c5b404',
             'iso_checksum_type': 'md5'
         }
-    }
+    },
     'sl': {
         '6.5': {
             'iso_url': 'http://mirrors.200p-sf.sonic.net/scientific/6.5/x86_64/iso/SL-65-x86_64-2014-01-27-Install-DVD.iso',  # noqa
