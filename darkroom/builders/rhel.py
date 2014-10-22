@@ -25,6 +25,13 @@ DISTRO_ISO_INFO = {
             'iso_checksum_type': 'md5'
         }
     }
+    'sl': {
+        '6.5': {
+            'iso_url': 'http://mirrors.200p-sf.sonic.net/scientific/6.5/x86_64/iso/SL-65-x86_64-2014-01-27-Install-DVD.iso',  # noqa
+            'iso_checksum': 'a95e182f6ed14a4fb36e448d6eb19a6a59a34778',
+            'iso_checksum_type': 'sha1'
+        }
+    }
 }
 
 DEFAULT_BOOT_COMMAND = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart.cfg<enter>"]  # noqa
