@@ -27,8 +27,8 @@ DISTRO_ISO_INFO = {
     },
     'sl': {
         '6.5': {
-            'iso_url': 'http://mirrors.200p-sf.sonic.net/scientific/6.5/x86_64/iso/SL-65-x86_64-2014-01-27-Install-DVD.iso',  # noqa
-            'iso_checksum': 'a95e182f6ed14a4fb36e448d6eb19a6a59a34778',
+            'iso_url': 'http://mirrors.200p-sf.sonic.net/scientific/6.5/x86_64/iso/SL-65-x86_64-2013-12-05-boot.iso',  # noqa
+            'iso_checksum': '2c56df9b6a6cce14fae802de0bb4a675b5bdc69d',
             'iso_checksum_type': 'sha1'
         }
     }
